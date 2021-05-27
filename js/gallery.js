@@ -78,12 +78,12 @@ function switchImages (evt) {
     newId = currentId - 1;
     if (newId === -1) {
       newId = arrayLinks.length - 1;
-    }
+    };
   } else if (evt.code === 'ArrowRight') {
     newId = currentId + 1;
     if (newId === (arrayLinks.length)) {
       newId = 0;
-    }
+    };
   };
   ref.lightboxImageEl.src = arrayLinks[newId];
 };
