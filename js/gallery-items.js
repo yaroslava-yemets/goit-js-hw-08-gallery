@@ -1,5 +1,4 @@
-//export default 
-const dataCollection =[
+export default [
     {
       preview:
         'https://cdn.pixabay.com/photo/2019/05/14/16/43/himilayan-blue-poppy-4202825__340.jpg',
@@ -64,38 +63,3 @@ const dataCollection =[
       description: 'Lighthouse Coast Sea',
     },
   ];
-
-const galletyBackgroundEl = document.querySelector('.js-gallery');
-const modalWindowEl = document.querySelector('js-lightbox');
-
-function createGalleryEl (items) {
-return items.map(({ preview, original, description}) => 
-`<li class="gallery__item">
-  <a
-    class="gallery__link"
-    href="${original}"
-    target="_blant";
-  >
-    <img
-      class="gallery__image"
-      src="${preview}"
-      data-source="${original}"
-      alt="${description}"
-    />
-  </a>
-</li>`
-).join('');
-};
-
-
-galletyBackgroundEl.innerHTML = createGalleryEl(dataCollection);
-
-const previewImageEl = document.querySelector('.gallery__image');
-galletyBackgroundEl.addEventListener('click', clickOnImage);
-
-function clickOnImage (evt) {
-  //if (evt.target.value)
-  console.log('you cicked on image');
-  console.log(evt.target);
-  console.log(evt.currentTarget);
-};
