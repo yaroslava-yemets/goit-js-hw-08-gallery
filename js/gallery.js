@@ -32,8 +32,6 @@ return items.map(({ preview, original, description}) =>
 galletyBackgroundEl.innerHTML = createGalleryEl(galleryItems);
 
 galletyBackgroundEl.addEventListener('click', clickOnImage);
-ref.closeLightboxBtn.addEventListener('click', closeLightboxByBtn);
-ref.lightboxOverlay.addEventListener('click', closeLightboxByOvelayClick);
 
 function clickOnImage (evt) {
   if (evt.target.nodeName !== 'IMG') {
@@ -43,23 +41,40 @@ function clickOnImage (evt) {
     ref.lightboxEl.classList.add('is-open');
     ref.lightboxImageEl.src = evt.target.dataset.source;
     ref.lightboxImageEl.alt = evt.target.alt;
+
+    eventListenerAdds();
   };
+};
+
+const eventListenerAdds = function () {
+  document.addEventListener('keydown', closeLightboxByEsc);
+  document.addEventListener('keydown', switchImages);
+  ref.closeLightboxBtn.addEventListener('click', closeLightboxByBtn);
+  ref.lightboxOverlay.addEventListener('click', closeLightboxByOvelayClick);
+};
+
+const eventListenerRemoves = function () {
+  ref.closeLightboxBtn.removeEventListener('click', closeLightboxByBtn);
+  ref.lightboxOverlay.removeEventListener('click', closeLightboxByOvelayClick);  
+  document.removeEventListener('keydown', closeLightboxByEsc);
+  document.removeEventListener('keydown', switchImages);
 };
 
 function closeLightboxByBtn () {
   ref.lightboxEl.classList.remove('is-open');
   ref.lightboxImageEl.src = '';
   ref.lightboxImageEl.alt = '';
+
+  eventListenerRemoves();
 };
 
 function closeLightboxByOvelayClick () {
   ref.lightboxEl.classList.remove('is-open');
   ref.lightboxImageEl.src = '';
   ref.lightboxImageEl.alt = '';
+  
+  eventListenerRemoves();
 };
-
-document.addEventListener('keydown', closeLightboxByEsc);
-document.addEventListener('keydown', switchImages);
 
 function closeLightboxByEsc (evt) {
   if (ref.lightboxEl.classList.contains('is-open')) {
@@ -67,6 +82,8 @@ function closeLightboxByEsc (evt) {
       ref.lightboxEl.classList.remove('is-open');
       ref.lightboxImageEl.src = '';
       ref.lightboxImageEl.alt = '';
+      
+      eventListenerRemoves();
     };
   };
 };
@@ -74,16 +91,18 @@ function closeLightboxByEsc (evt) {
 function switchImages (evt) {
   let newId;
   const currentId = arrayLinks.indexOf(ref.lightboxImageEl.src);
-  if (evt.code === 'ArrowLeft') {
+  if (evt.key === 'ArrowLeft') {
     newId = currentId - 1;
     if (newId === -1) {
       newId = arrayLinks.length - 1;
     };
-  } else if (evt.code === 'ArrowRight') {
+  } else if (evt.key === 'ArrowRight') {
     newId = currentId + 1;
-    if (newId === (arrayLinks.length)) {
+    if (newId === arrayLinks.length) {
       newId = 0;
-    };
+    } 
+  } else {
+    return;
   };
   ref.lightboxImageEl.src = arrayLinks[newId];
 };
